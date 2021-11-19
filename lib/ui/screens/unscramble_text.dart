@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class UnscrambleText extends StatefulWidget {
@@ -12,14 +14,70 @@ class UnscrambleText extends StatefulWidget {
 }
 
 class _UnscrambleTextState extends State<UnscrambleText> {
-  double width = 100.0, height = 100.0;
-  late Offset position;
+  // double width = 100.0, height = 100.0;
+  // late Offset position;
 
-  @override
-  void initState() {
-    super.initState();
-    position = Offset(0.0, height - 20);
+  // @override
+  // void initState() {
+  //   super.initState();
+  //position = Offset(0.0, height - 20);
+  // }
+
+  Widget buildDragTarget(List<String> listerals) {
+    return ListView.builder(
+        itemBuilder: (ctx, i) {
+          return DragTarget(
+            onWillAccept: (data) => true,
+            onAccept: (String data) {
+              setState(() {
+                acceptedData = data;
+              });
+            },
+            builder: (BuildContext context, List<dynamic> splitToStringData,
+                List<dynamic> rejectedData) {
+              return Column(
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        // color: Colors.blue,
+                        // child: Text(
+                        //   acceptedData,
+                        //   style: const TextStyle(
+                        //       fontSize: 18, color: Colors.white),
+                        // ),
+                        child: acceptedWidget(acceptedData),
+                      ),
+                      const Divider(
+                        color: Colors.black,
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            },
+          );
+        },
+        itemCount: listerals.length);
   }
+
+  Widget acceptedWidget(String text) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      width: (text.length + 100),
+      child: Center(
+        child: Text(
+          text,
+          style: const TextStyle(
+              fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+      ),
+      color: Colors.blueAccent,
+    );
+  }
+
+  String acceptedData = " ";
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +110,8 @@ class _UnscrambleTextState extends State<UnscrambleText> {
                   children: splitToString
                       .map(
                         (e) => Draggable(
+                          data: e,
+
                           // onDragStarted: () {
                           //   print("onDragStarted");
                           // },
@@ -109,31 +169,92 @@ class _UnscrambleTextState extends State<UnscrambleText> {
               const SizedBox(
                 height: 50,
               ),
-              DragTarget(
-                onWillAccept: (data) => true,
-                builder: (BuildContext context, List<dynamic> candidateData,
-                    List<dynamic> rejectedData) {
-                  return Column(
-                    children: const [
-                      Divider(
-                        color: Colors.black,
-                      ),
-                      SizedBox(
-                        height: 50,
-                      ),
-                      Divider(
-                        color: Colors.black,
-                      ),
-                      SizedBox(
-                        height: 50,
-                      ),
-                      Divider(
-                        color: Colors.black,
-                      ),
-                    ],
-                  );
-                },
-              ),
+              buildDragTarget(splitToString),
+/******************************************************************************************** */
+              // DragTarget(
+              //   onWillAccept: (data) => true,
+              //   onAccept: (String data) {
+              //     setState(() {
+              //       acceptedData = data;
+              //     });
+              //   },
+              //   builder: (BuildContext context, List<dynamic> splitToStringData,
+              //       List<dynamic> rejectedData) {
+              //     return Column(
+              //       children: [
+              //         Row(
+              //           children: [
+
+              //             Container(
+              //               padding: const EdgeInsets.all(10),
+              //               // color: Colors.blue,
+              //               // child: Text(
+              //               //   acceptedData,
+              //               //   style: const TextStyle(
+              //               //       fontSize: 18, color: Colors.white),
+              //               // ),
+              //               child: acceptedWidget(acceptedData),
+              //             ),
+              //             const Divider(
+              //               color: Colors.black,
+              //             ),
+
+              //           ],
+              //         ),
+              //       ],
+              //     );
+              //   },
+              // ),
+
+/****************************************************************************************************** */
+
+              // return Column(
+              //   children: [
+              //     Column(
+              //       children: const [
+              //         Divider(
+              //           color: Colors.black,
+              //         ),
+              //       ],
+              //     ),
+              //     const SizedBox(
+              //       height: 50,
+              //     ),
+              //     Column(
+              //       children: const [
+              //         Divider(
+              //           color: Colors.black,
+              //         ),
+              //       ],
+              //     ),
+              //     const SizedBox(
+              //       height: 50,
+              //     ),
+              //     Column(
+              //       children: const [
+              //         Divider(
+              //           color: Colors.black,
+              //         ),
+              //       ],
+              //     ),
+              //   ],
+              // );
+              // return Column(
+              //   children: [
+              //     Wrap(
+              //       children: [
+              //         Container(
+              //           child: Center(
+              //             child: Text(acceptedData),
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //    const Divider(
+              //       color: Colors.black,
+              //     ),
+              //   ],
+              // );
             ],
           ),
         ),
