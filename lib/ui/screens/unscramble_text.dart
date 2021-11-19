@@ -23,44 +23,48 @@ class _UnscrambleTextState extends State<UnscrambleText> {
   //position = Offset(0.0, height - 20);
   // }
 
-  Widget buildDragTarget(List<String> listerals) {
-    return ListView.builder(
-        itemBuilder: (ctx, i) {
-          return DragTarget(
-            onWillAccept: (data) => true,
-            onAccept: (String data) {
-              setState(() {
-                acceptedData = data;
-              });
-            },
-            builder: (BuildContext context, List<dynamic> splitToStringData,
-                List<dynamic> rejectedData) {
-              return Column(
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        // color: Colors.blue,
-                        // child: Text(
-                        //   acceptedData,
-                        //   style: const TextStyle(
-                        //       fontSize: 18, color: Colors.white),
-                        // ),
-                        child: acceptedWidget(acceptedData),
-                      ),
-                      const Divider(
-                        color: Colors.black,
-                      ),
-                    ],
-                  ),
-                ],
-              );
-            },
-          );
-        },
-        itemCount: listerals.length);
-  }
+  // Widget buildDragTarget(List<String> listerals) {
+  //   return Container(
+  //     height: 100,
+  //     padding: const EdgeInsets.all(8),
+  //     child: ListView.builder(
+  //         itemBuilder: (ctx, i) {
+  //           return DragTarget(
+  //             onWillAccept: (data) => true,
+  //             onAccept: (String data) {
+  //               setState(() {
+  //                 acceptedData = data;
+  //               });
+  //             },
+  //             builder: (BuildContext context, List<dynamic> splitToStringData,
+  //                 List<dynamic> rejectedData) {
+  //               return Column(
+  //                 children: [
+  //                   Row(
+  //                     children: [
+  //                       Container(
+  //                         padding: const EdgeInsets.all(10),
+  //                         // color: Colors.blue,
+  //                         // child: Text(
+  //                         //   acceptedData,
+  //                         //   style: const TextStyle(
+  //                         //       fontSize: 18, color: Colors.white),
+  //                         // ),
+  //                         child: acceptedWidget(acceptedData),
+  //                       ),
+  //                       const Divider(
+  //                         color: Colors.black,
+  //                       ),
+  //                     ],
+  //                   ),
+  //                 ],
+  //               );
+  //             },
+  //           );
+  //         },
+  //         itemCount: listerals.length),
+  //   );
+  // }
 
   Widget acceptedWidget(String text) {
     return Container(
@@ -169,42 +173,49 @@ class _UnscrambleTextState extends State<UnscrambleText> {
               const SizedBox(
                 height: 50,
               ),
-              buildDragTarget(splitToString),
+
 /******************************************************************************************** */
-              // DragTarget(
-              //   onWillAccept: (data) => true,
-              //   onAccept: (String data) {
-              //     setState(() {
-              //       acceptedData = data;
-              //     });
-              //   },
-              //   builder: (BuildContext context, List<dynamic> splitToStringData,
-              //       List<dynamic> rejectedData) {
-              //     return Column(
-              //       children: [
-              //         Row(
-              //           children: [
+              Column(
+                children: splitToString
+                    .asMap()
+                    .entries
+                    .map(
+                      (e) => DragTarget(
+                        onWillAccept: (data) => true,
+                        onAccept: (String data) {
+                          acceptedData = data;
+                        },
+                        builder: (BuildContext context,
+                            List<dynamic> splitToStringData,
+                            List<dynamic> rejectedData) {
+                          return Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(10),
+                                    // color: Colors.blue,
+                                    // child: Text(
+                                    //   acceptedData,
+                                    //   style: const TextStyle(
+                                    //       fontSize: 18, color: Colors.white),
+                                    // ),
+                                    child: acceptedWidget(e.value),
+                                  ),
+                                  const Divider(
+                                    color: Colors.black,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    )
+                    .toList(),
 
-              //             Container(
-              //               padding: const EdgeInsets.all(10),
-              //               // color: Colors.blue,
-              //               // child: Text(
-              //               //   acceptedData,
-              //               //   style: const TextStyle(
-              //               //       fontSize: 18, color: Colors.white),
-              //               // ),
-              //               child: acceptedWidget(acceptedData),
-              //             ),
-              //             const Divider(
-              //               color: Colors.black,
-              //             ),
-
-              //           ],
-              //         ),
-              //       ],
-              //     );
-              //   },
-              // ),
+                //],
+              ),
 
 /****************************************************************************************************** */
 
