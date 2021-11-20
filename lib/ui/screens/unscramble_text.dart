@@ -125,20 +125,27 @@ class _UnscrambleTextState extends State<UnscrambleText> {
                           // onDraggableCanceled: (Velocity velocity, Offset offset) {
                           //   setState(() => position = offset);
                           // },
-                          child: Container(
-                            padding: const EdgeInsets.all(8),
-                            width: (e.length + 100),
-                            child: Center(
-                              child: Text(
-                                e,
-                                style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
-                            ),
-                            color: Colors.blueAccent,
-                          ),
+                          child: e == acceptedData
+                              ? Container(
+                                  padding: const EdgeInsets.all(8),
+                                  width: (e.length + 100),
+                                  color: Colors.grey,
+                                  height: 50,
+                                )
+                              : Container(
+                                  padding: const EdgeInsets.all(8),
+                                  width: (e.length + 100),
+                                  child: Center(
+                                    child: Text(
+                                      e,
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                  color: Colors.blueAccent,
+                                ),
                           feedback: Material(
                             child: Container(
                               padding: const EdgeInsets.all(8),
@@ -175,7 +182,8 @@ class _UnscrambleTextState extends State<UnscrambleText> {
               ),
 
 /******************************************************************************************** */
-              Column(
+
+              Wrap(
                 children: splitToString
                     .asMap()
                     .entries
@@ -183,29 +191,21 @@ class _UnscrambleTextState extends State<UnscrambleText> {
                       (e) => DragTarget(
                         onWillAccept: (data) => true,
                         onAccept: (String data) {
-                          acceptedData = data;
+                          setState(() {
+                            acceptedData = data;
+                          });
+                          splitToString.remove(e.value);
                         },
                         builder: (BuildContext context,
-                            List<dynamic> splitToStringData,
+                            List<dynamic> spliteToStringData,
                             List<dynamic> rejectedData) {
-                          return Column(
+                          return Wrap(
+                            spacing: 20,
+                            runSpacing: 30,
                             children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.all(10),
-                                    // color: Colors.blue,
-                                    // child: Text(
-                                    //   acceptedData,
-                                    //   style: const TextStyle(
-                                    //       fontSize: 18, color: Colors.white),
-                                    // ),
-                                    child: acceptedWidget(e.value),
-                                  ),
-                                  const Divider(
-                                    color: Colors.black,
-                                  ),
-                                ],
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                child: acceptedWidget(acceptedData),
                               ),
                             ],
                           );
@@ -213,9 +213,55 @@ class _UnscrambleTextState extends State<UnscrambleText> {
                       ),
                     )
                     .toList(),
-
-                //],
               ),
+              //  for (var i = 0; i < splitToString.length; i++)
+
+              // ],
+
+              // Wrap(
+              //   spacing: 20,
+              //   runSpacing: 30,
+              //   children: splitToString
+              //       .asMap()
+              //       .entries
+              //       .map(
+              //         (e) => DragTarget(
+              //           onWillAccept: (data) => true,
+              //           onAccept: (String data) {
+              //             setState(() {
+              //               acceptedData = data;
+              //             });
+              //           },
+              //           builder: (BuildContext context,
+              //               List<dynamic> splitToStringData,
+              //               List<dynamic> rejectedData) {
+              //             return Row(
+              //               mainAxisAlignment: MainAxisAlignment.spaceAround,
+              //               children: [
+              //                 Container(
+              //                   padding: const EdgeInsets.all(10),
+              //                   // color: Colors.blue,
+              //                   // child: Text(
+              //                   //   acceptedData,
+              //                   //   style: const TextStyle(
+              //                   //       fontSize: 18, color: Colors.white),
+              //                   // ),
+              //                   child: acceptedWidget(acceptedData),
+              //                 ),
+              //                 const Divider(
+              //                   color: Colors.black,
+              //                 ),
+              //               ],
+              //             );
+              //           },
+              //         ),
+              //       )
+              //       .toList(),
+
+              //   //],
+              // ),
+
+/****************************************************************************************************** */
 
 /****************************************************************************************************** */
 
