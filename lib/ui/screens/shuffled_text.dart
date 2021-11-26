@@ -55,75 +55,78 @@ class _ShuffledTextState extends State<ShuffledText> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          // arrage the choices in a row
-          //direction: Axis.vertical,
-          children: [
-            Wrap(
-              spacing: 20,
-              runSpacing: 20,
-              children: choices.map((String choice) {
-                //  loop over
+    return Expanded(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            // arrage the choices in a row
+            //direction: Axis.vertical,
+            children: [
+              Wrap(
+                spacing: 20,
+                runSpacing: 20,
+                children: choices.map((String choice) {
+                  //  loop over
 
-                return Draggable<String>(
-                  //  set the data to the random choice
-                  data: choice,
+                  return Draggable<String>(
+                    //  set the data to the random choice
+                    data: choice,
 
-                  //  set the child to the random choice
-                  child: MyBox(
-                    color1: AppColors.white,
-                    widget: Text(
-                      choice,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.black,
-                      ),
-                    ),
-                  ),
-
-                  //  set the feedback to the random choice
-                  feedback: MyBox(
-                    color1: AppColors.white.withOpacity(0.13),
                     //  set the child to the random choice
-                    widget: Text(
-                      choice,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.black,
+                    child: MyBox(
+                      color1: AppColors.white,
+                      widget: Text(
+                        choice,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.black,
+                        ),
                       ),
                     ),
-                  ),
-                  childWhenDragging:
-                      //  show empty box
-                      MyBox(
-                    color1: AppColors.white.withOpacity(0.13),
-                    widget: const Text(
-                      '',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.black,
+
+                    //  set the feedback to the random choice
+                    feedback: MyBox(
+                      color1: AppColors.white.withOpacity(0.13),
+                      //  set the child to the random choice
+                      widget: Text(
+                        choice,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.black,
+                        ),
                       ),
                     ),
-                  ),
-                );
-              }).toList(),
-            ),
-            const SizedBox(height: 55, width: 55),
-            Wrap(
-              spacing: 20,
-              runSpacing: 20,
-              children:
-                  choices.map((choices) => _buildDragTarget(choices)).toList(),
-            )
-          ],
+                    childWhenDragging:
+                        //  show empty box
+                        MyBox(
+                      color1: AppColors.white.withOpacity(0.13),
+                      widget: const Text(
+                        '',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.black,
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 55, width: 55),
+              Wrap(
+                spacing: 20,
+                runSpacing: 20,
+                children: choices
+                    .map((choices) => _buildDragTarget(choices))
+                    .toList(),
+              )
+            ],
+          ),
         ),
       ),
     );

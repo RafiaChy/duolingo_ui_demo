@@ -11,13 +11,13 @@ class AppColors {
   static const darkGrey = Color(0xFFAEAEAE);
   static const grey = Color(0xFFD9D9D9);
   static const lightGrey = Color(0xFFECEBF0);
-  static const shadowText = Color(0xFF9A9A9A);
+  static const border = Color(0xFF696969);
   static const nearBlack = Color(0xFF131921);
   static const shadowBlack = Color(0x19000000); // Opacity 25/255
   static const darkShadowBlack = Color(0x32000000); // Opacity 50/255
   static const black = Color(0xFF000000);
   static const transparent = Color(0x00000000);
-  static const dataText = Color(0xFF696969);
+  static const appBackground = Color(0xFF252525);
 }
 
 class AppGradients {
@@ -126,7 +126,7 @@ class AppTheme {
           fontSize: 14,
           fontWeight: FontWeight.w400,
           letterSpacing: 0.25,
-          color: AppColors.shadowText,
+          color: AppColors.border,
         ),
         button: TextStyle(
           fontFamily: primaryFont,

@@ -8,46 +8,51 @@ class MyBox extends StatelessWidget {
     this.color1,
     this.color2,
     this.color3,
+    this.givenWidth,
+    this.givenHeight,
   }) : super(key: key);
 
   final Widget? widget;
   final Color? color1;
   final Color? color2;
   final Color? color3;
+  final double? givenWidth;
+  final double? givenHeight;
 
-  //  accepted data from drag to be stored as String
+  //  accepted datat from drap to be stored as String
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
         child: Container(
-            height: 34,
-            width: 100,
-            // add  border to the container
-            decoration: BoxDecoration(
-              //  if color1 is not null then assign it to container if it is null then assign color2 to the container else assign color3 to the container
-              color: color1 ?? color2 ?? color3, // add shadow to container
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.black.withOpacity(0.13),
-                  offset: const Offset(0, 3),
-                  blurRadius: 13,
-                  spreadRadius: 5,
-                ),
-              ],
-              borderRadius: const BorderRadius.all(
-                Radius.circular(8),
+          width: givenWidth,
+          height: givenHeight,
+          decoration: BoxDecoration(
+            //  if color1 is not null then assign it to container if it is null then assign color2 to the container else assign color3 to the container
+            color: color1 ?? color2 ?? color3, // add shadow to container
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.white.withOpacity(0.13),
+                offset: const Offset(0, 3),
+                blurRadius: 0,
+                spreadRadius: 1,
               ),
-              // add border to container
-              border: Border.all(
-                color: AppColors.white.withOpacity(1),
-                width: 1,
-              ),
+            ],
+            borderRadius: const BorderRadius.all(
+              Radius.circular(8),
             ),
-            alignment: Alignment.center,
-            child: widget),
+            // add border to container
+            border: Border.all(
+              color: AppColors.border,
+              width: 1,
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 13),
+            child: widget,
+          ),
+        ),
       ),
     );
   }

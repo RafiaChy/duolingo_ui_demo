@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rafia_unscramble_bloc/ui/screens/shuffled_text.dart';
+import 'package:rafia_unscramble_bloc/ui/screens/unscramble_text.dart';
 
 class InputTextField extends StatelessWidget {
   final _controller = TextEditingController();
@@ -41,9 +42,9 @@ class InputTextField extends StatelessWidget {
 
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => ShuffledText(
+                  builder: (context) => UnscrambleText(
                     title: 'UnScramble',
-                    inputFromFirstScreen: _controller.text,
+                    inputFromTextField: _controller.text,
                   ),
                 ),
               );

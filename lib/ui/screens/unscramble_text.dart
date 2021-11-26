@@ -1,282 +1,203 @@
-// import 'dart:math';
+import 'package:flutter/material.dart';
+//  import flutter material.dart
 
-// import 'package:flutter/material.dart';
+import 'package:rafia_unscramble_bloc/ui/screens/theme.dart';
+import 'package:rafia_unscramble_bloc/widgets/my_box.dart';
 
-// class UnscrambleText extends StatefulWidget {
-//   final String inputFromTextField;
-//   const UnscrambleText({
-//     Key? key,
-//     required this.inputFromTextField,
-//   }) : super(key: key);
+class UnscrambleText extends StatefulWidget {
+  const UnscrambleText(
+      {Key? key, required this.title, required this.inputFromTextField})
+      : super(key: key);
 
-//   @override
-//   State<UnscrambleText> createState() => _UnscrambleTextState();
-// }
+  final String title;
+  final String inputFromTextField;
 
-// class _UnscrambleTextState extends State<UnscrambleText> {
-//   Widget acceptedWidget(String text) {
-//     return Container(
-//       padding: const EdgeInsets.all(8),
-//       width: (text.length + 100),
-//       child: Center(
-//         child: Text(
-//           text,
-//           style: const TextStyle(
-//               fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
-//         ),
-//       ),
-//       color: Colors.blueAccent,
-//     );
-//   }
+  @override
+  UnscrambleTextState createState() => UnscrambleTextState();
+}
 
-//   String acceptedData = " ";
+//  create UnscrambleTextState class
 
-//   @override
-//   Widget build(BuildContext context) {
-//     List<String> splitToString = widget.inputFromTextField.split(' ');
+class UnscrambleTextState extends State<UnscrambleText> {
+  // map to keep track of the score
+  final Map<String, bool> score = {};
+  bool accepted = false;
 
-//     splitToString.shuffle();
+  // Choices for the user to darg and drop to the drag target
+  final List<String> choices = [];
+  final List<String> dragTargets = [];
 
-//     List<String> secList = List.from(splitToString);
+  // make a void function which extract the choices from the inputFromTextField if there is any empty space in the inputFromTextField then don't add it to the choices
+  void _extractChoices() {
+    //  split the inputFromTextField by space
+    final List<String> widgets = widget.inputFromTextField.split(' ');
+    //suffle the list items
+    widgets.shuffle();
+    //  iterate over the widgets
+    for (var widget in widgets) {
+      //  if the widget is not empty
+      if (widget.isNotEmpty) {
+        //  add the widget to the choices
+        choices.add(widget);
+      }
+    }
+  }
 
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Unscramble'),
-//       ),
-//       body: SingleChildScrollView(
-//         child: Container(
-//           padding: const EdgeInsets.all(3),
-//           child: Column(
-//             children: [
-//               Container(
-//                 padding: const EdgeInsets.all(20),
-//                 child: const Text(
-//                   'Drag and Drop To Unscramble',
-//                   style: TextStyle(
-//                     fontSize: 24,
-//                     fontWeight: FontWeight.bold,
-//                   ),
-//                 ),
-//               ),
-//               Container(
-//                 padding: const EdgeInsets.all(20),
-//                 child: Wrap(
-//                   spacing: 20,
-//                   runSpacing: 30,
-//                   children: splitToString
-//                       .map(
-//                         (e) => Draggable(
-//                           data: e,
+  // make a void initState() method
+  @override
+  void initState() {
+    super.initState();
+    _extractChoices();
+  }
 
-//                           // onDragStarted: () {
-//                           //   print("onDragStarted");
-//                           // },
-//                           // onDragCompleted: () {
-//                           //   print("onDragCompleted");
-//                           // },
-//                           // onDraggableCanceled: (Velocity velocity, Offset offset) {
-//                           //   setState(() => position = offset);
-//                           // },
-//                           child: e == acceptedData
-//                             //  ? Container(
-//                                   padding: const EdgeInsets.all(8),
-//                                   width: (e.length + 100),
-//                                   color: Colors.grey,
-//                                   height: 50,
-//                                 )
-//                               : Container(
-//                                   padding: const EdgeInsets.all(8),
-//                                   width: (e.length + 100),
-//                                   child: Center(
-//                                     child: Text(
-//                                       e,
-//                                       style: const TextStyle(
-//                                           fontSize: 18,
-//                                           fontWeight: FontWeight.bold,
-//                                           color: Colors.white),
-//                                     ),
-//                                   ),
-//                                   color: Colors.blueAccent,
-//                                 ),
-//                           feedback: Material(
-//                             child: Container(
-//                               padding: const EdgeInsets.all(8),
-//                               width: (e.length + 100),
-//                               color: Colors.amber,
-//                               child: Center(
-//                                 child: Text(
-//                                   e,
-//                                   style: const TextStyle(
-//                                     fontSize: 18,
-//                                     fontWeight: FontWeight.bold,
-//                                     color: Colors.black,
-//                                   ),
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                           childWhenDragging: Container(
-//                             padding: const EdgeInsets.all(8),
-//                             width: (e.length + 100),
-//                             color: Colors.grey,
-//                             height: 50,
-//                           ),
-//                         ),
-//                       )
-//                       .toList(),
-//                 ),
-//               ),
-//               const SizedBox(
-//                 height: 50,
-//               ),
-//               const SizedBox(
-//                 height: 50,
-//               ),
-//               Wrap(
-//                 children: secList
-//                     .asMap()
-//                     .entries
-//                     .map(
-//                       (e) => DragTarget(
-//                         onWillAccept: (data) => true,
-//                         onAccept: (String data) {
-//                           setState(() {
-//                             acceptedData = data;
-//                             splitToString.remove(e.value);
-//                           });
-//                         },
-//                         builder: (BuildContext context,
-//                             List<dynamic> spliteToStringData,
-//                             List<dynamic> rejectedData) {
-//                           return Wrap(
-//                             spacing: 20,
-//                             runSpacing: 30,
-//                             children: [
-//                               Container(
-//                                 padding: const EdgeInsets.all(10),
-//                                 child: acceptedWidget(acceptedData),
-//                               ),
-//                             ],
-//                           );
-//                         },
-//                       ),
-//                     )
-//                     .toList(),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+  final List<String> acceptedData = [];
+  //  map which store k,v where k = index of the acceptedData and v = the value of the acceptedData
+  final Map<String, int> acceptedDataMap = {};
 
-//  import flutter package
-// import 'package:flutter/material.dart';
+  // //  list which store the index of choices which are accepted
 
-// //  import theme.dart file from ui\screen
-// import 'package:rafia_unscramble_bloc/ui/screens/theme.dart';
+  // override the build method
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      // floatingActionButton let user reset the game
 
-// //  make a Stateless class which have a drag target
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 89),
+          child: Wrap(
+              // arrage the choices in a row
+              direction: Axis.horizontal,
+              children: [
+                const Divider(
+                  color: AppColors.border,
+                  thickness: 2,
+                ),
+                const SizedBox(
+                  height: 55,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 21),
+                  child: Wrap(
+                    // get the choices and loop over them
+                    children: choices.map((String choice) {
+                      const Divider(
+                        thickness: 2,
+                        color: AppColors.appBackground,
+                      );
+                      //  loop over
 
-// class DragTargetExample extends StatelessWidget {
-//   //  generate  a list  which conatin 5 random words
-//   final List<String> words = ['Hello', 'Flutter', 'Dart', 'Is', 'Awesome'];
+                      return Draggable<String>(
+                          //  set the data to the random choice
+                          data: choice,
+                          //  set the child to the random choice
+                          child:
+                              //   if acceptedData do not conatin the choice then show MyBox
+                              !acceptedData.contains(choice)
+                                  ? MyBox(
+                                      //  set the child to the random choice
+                                      color1: AppColors.appBackground,
+                                      widget: Text(
+                                        choice,
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: AppColors.white,
+                                        ),
+                                      ),
+                                    )
+                                  : const SizedBox(),
+                          //  set the feedback to the random choice
+                          feedback: MyBox(
+                            color1: AppColors.appBackground.withOpacity(0.13),
+                            //  set the child to the random choice
+                            widget: Text(
+                              choice,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.white,
+                              ),
+                            ),
+                          ),
+                          childWhenDragging: const SizedBox());
+                    }).toList(),
+                  ),
+                ),
+                const Divider(
+                  thickness: 2,
+                  color: AppColors.border,
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 21, vertical: 21),
+                  child: Wrap(
+                    // children: dragTargets
+                    //     .map((choices) => _buildDragTarget(choices))
+                    //     .toList(),
+                    children: [
+                      for (int i = 0; i < choices.length; i++)
+                        _buildDragTarget(choices[i])
+                    ],
+                  ),
+                ),
+                const Divider(
+                  thickness: 2,
+                  color: AppColors.border,
+                ),
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Drag Target'),
-//       ),
-//       body: SingleChildScrollView(
-//         child: Center(
-//           child: Column(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             children: <Widget>[
-//               _generalDetailsComponentUI(context, words.length, words),
-//               const SizedBox(
-//                 height: 20,
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
+                // add Button to submit the answer
+                Padding(
+                  padding: const EdgeInsets.only(left: 21),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [
+                      //  add ElevatedButton to submit the answer
+                    ],
+                  ),
+                ),
+              ]),
+        ),
+      ),
+    );
+  }
 
-  //  this is wwhat I thought... first create and show all the elmeents of the list
-  // then create a drag target which will accept the element and remove it from the list
-  //  and then let user darg the elments into the target and for each drag we can keep refereshing the state()
-  //  do you gues think i is good idea to  do like this?
-  // I dont see any other way how that would work anyways.
-  //  alight then I will try implemting that
-
-  //
-
-//   Widget _generalDetailsComponentUI(
-//     BuildContext context,
-//     int itemCount,
-//     List<String> details,
-//   ) {
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         SizedBox(
-//           height: 89,
-//           child: ListView.builder(
-//             scrollDirection: Axis.horizontal,
-//             shrinkWrap: true,
-//             itemCount: itemCount,
-//             itemBuilder: (context, index) {
-//               return Padding(
-//                 padding: const EdgeInsets.fromLTRB(8, 5, 21, 55),
-//                 child: Container(
-//                   decoration: BoxDecoration(
-//                     color: AppColors.darkGrey,
-//                     // add shadow to container
-//                     boxShadow: [
-//                       BoxShadow(
-//                         color: AppColors.shadowBlack.withOpacity(0.1),
-//                         offset: const Offset(0, 3),
-//                         blurRadius: 13,
-//                         spreadRadius: 1,
-//                       ),
-//                     ],
-//                     borderRadius: const BorderRadius.all(
-//                       Radius.circular(8),
-//                     ),
-//                   ),
-//                   child: Padding(
-//                     padding: const EdgeInsets.symmetric(
-//                         horizontal: 21, vertical: 13),
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: [
-//                         Text(
-//                           //  if tag is null then show '${details[index]['title']}'
-//                           details[index].toUpperCase(),
-//                           style: Theme.of(context)
-//                               .textTheme
-//                               .bodyText2
-//                               ?.copyWith(
-//                                 color: AppColors.lightBlue2.withOpacity(0.1),
-//                                 fontWeight: FontWeight.w700,
-//                                 fontSize: 13,
-//                                 // fontFamily: 'Montserrat',
-//                                 fontFamily: 'Montserrat',
-//                               ),
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 ),
-//               );
-//             },
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
-
+  Widget _buildDragTarget(String choice) {
+    return DragTarget<String>(
+      builder: (BuildContext context, List<String?> incoming, List rejected) =>
+          //  if choice exist in the acceptedData then show MyBox
+          acceptedData.contains(choice)
+              ? MyBox(
+                  color1: AppColors.appBackground,
+                  widget: Text(
+                    choice,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.white,
+                    ),
+                  ),
+                )
+              : const MyBox(
+                  color1: AppColors.appBackground,
+                  givenHeight: 34,
+                  givenWidth: 89,
+                ),
+      onWillAccept: (data) {
+        return true;
+      },
+      onAccept: (String? data) {
+        setState(() {
+          // add to the acceptedData
+          acceptedData.add(data!);
+          // garb the index of the drag target where the data is added
+          acceptedDataMap[data] = acceptedData.indexOf(data);
+        });
+      },
+      onLeave: (data) {},
+    );
+  }
+}
