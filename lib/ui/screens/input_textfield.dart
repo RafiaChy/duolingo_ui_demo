@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rafia_unscramble_bloc/ui/screens/shuffled_text.dart';
 import 'package:rafia_unscramble_bloc/ui/screens/unscramble_text.dart';
 
 class InputTextField extends StatelessWidget {

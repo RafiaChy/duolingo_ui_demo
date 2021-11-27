@@ -53,6 +53,7 @@ class UnscrambleTextState extends State<UnscrambleText> {
   final List<String> acceptedData = [];
   //  map which store k,v where k = index of the acceptedData and v = the value of the acceptedData
   final Map<String, int> acceptedDataMap = {};
+  // late String word;
 
   // //  list which store the index of choices which are accepted
 
@@ -165,15 +166,15 @@ class UnscrambleTextState extends State<UnscrambleText> {
     );
   }
 
-  Widget _buildDragTarget(String choice) {
+  Widget _buildDragTarget(String mydata) {
     return DragTarget<String>(
       builder: (BuildContext context, List<String?> incoming, List rejected) =>
           //  if choice exist in the acceptedData then show MyBox
-          acceptedData.contains(choice)
+          acceptedData.contains(mydata)
               ? MyBox(
                   color1: AppColors.appBackground,
                   widget: Text(
-                    choice,
+                    mydata,
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
